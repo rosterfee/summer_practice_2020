@@ -27,10 +27,7 @@ public class StudentsRepositoryJdbcImpl implements StudentsRepository {
             " m.last_name as m_last_name, m.subject_id as m_subject_id, s.id as s_id, " +
             "s.first_name as s_first_name, s.last_name as s_last_name, s.age as s_age," +
             " s.group_number as s_group_number from student s left join mentor m on s.id = student_id";
-    
     private Connection connection;
-    
-    
 
     public StudentsRepositoryJdbcImpl(Connection connection) {
         this.connection = connection;
@@ -122,21 +119,27 @@ public class StudentsRepositoryJdbcImpl implements StudentsRepository {
                 id = result.getLong("s_id");
             }
 
+//добавляем первого студента
             addStudent(list, id, result);
 
             while (result.next()) {
-                for (Student student : list) {
-                    if (student.getId() == id) {
-                        student.getMentors().add(new Mentor(
-                                result.getLong("s_id"),
+                for (int i = 0; i < list.size(); i++) {
+                    Student current = list.get(i);
+//если есть студент с таким же id, то добавляем нового ментора в список
+                    if (current.getId() == id) {
+                        current.getMentors().add(new Mentor(
+                                result.getLong("m_id"),
                                 result.getString("m_first_name"),
                                 result.getString("m_last_name"),
-                                student,
-                                result.getInt("m_subject_id")
+                                null,
+                                null
                         ));
+                    } else {
+//добавляем студентов
+                        addStudent(list, id, result);
+                        break;
                     }
                 }
-                addStudent(list, id, result);
                 id = result.getLong("s_id");
             }
 
@@ -176,7 +179,8 @@ public class StudentsRepositoryJdbcImpl implements StudentsRepository {
                         result.getString("first_name"),
                         result.getString("last_name"),
                         result.getInt("age"),
-                        result.getInt("group_number")
+                        result.getInt("group_number"),
+                        null
                 );
             } else return null;
         } catch (SQLException e) {
@@ -209,15 +213,16 @@ public class StudentsRepositoryJdbcImpl implements StudentsRepository {
                     result.getString("s_first_name"),
                     result.getString("s_last_name"),
                     result.getInt("s_age"),
-                    result.getInt("s_group_number")
+                    result.getInt("s_group_number"),
+                    listMentor
             );
 
             listMentor.add(new Mentor(
                     result.getLong("m_id"),
                     result.getString("m_first_name"),
                     result.getString("m_last_name"),
-                    student,
-                    result.getInt("m_subject_id")
+                    null,
+                    null
             ));
 
             listStudent.add(student);
@@ -247,8 +252,8 @@ public class StudentsRepositoryJdbcImpl implements StudentsRepository {
             result = statement.executeQuery("insert into student (first_name, last_name, subject_id, student_id) value" +
                     " (" + mentor.getFirstName()
                     + ", " + mentor.getLastName()
-                    + ", " + mentor.getSubjectId()
-                    + ", " + mentor.getStudentId() + ");");
+                    + ", " + mentor.getSubject()
+                    + ", " + mentor.getStudent() + ");");
         } catch (SQLException e) {
             throw new IllegalArgumentException();
         } finally {
@@ -313,4 +318,3 @@ public class StudentsRepositoryJdbcImpl implements StudentsRepository {
         }
     }
 }
-

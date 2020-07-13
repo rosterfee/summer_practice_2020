@@ -1,9 +1,7 @@
 package ru_kpfu_itis_group905_kiyamdinov.models;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
  * 10.07.2020
@@ -26,6 +24,15 @@ public class Student {
         this.lastName = lastName;
         this.age = age;
         this.groupNumber = groupNumber;
+    }
+
+    public Student(Long id, String firstName, String lastName, int age, int groupNumber, List<Mentor> mentors) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.groupNumber = groupNumber;
+        this.mentors = mentors;
     }
 
     public Long getId() {
@@ -68,6 +75,14 @@ public class Student {
         this.groupNumber = groupNumber;
     }
 
+    public List<Mentor> getMentors() {
+        return mentors;
+    }
+
+    public void setMentors(List<Mentor> mentors) {
+        this.mentors = mentors;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,21 +102,14 @@ public class Student {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Student.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("firstName='" + firstName + "'")
-                .add("lastName='" + lastName + "'")
-                .add("age=" + age)
-                .add("groupNumber=" + groupNumber)
-                .toString();
-    }
-
-    public void setMentors(List<Mentor> mentors) {
-        this.mentors = mentors;
-    }
-
-    public Collection<Mentor> getMentors() {
-        return mentors;
+        return "Student{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", groupNumber=" + groupNumber +
+                ", mentors=" + mentors +
+                '}';
     }
 }
 

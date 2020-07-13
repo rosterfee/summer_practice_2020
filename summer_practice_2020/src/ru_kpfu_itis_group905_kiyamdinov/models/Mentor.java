@@ -8,25 +8,26 @@ package ru_kpfu_itis_group905_kiyamdinov.models;
  * @version v1.0
  */
 public class Mentor {
+
     private Long id;
     private String firstName;
     private String lastName;
-    private int subjectId;
-    private Student studentId;
+    private Student student;
+    private Integer subject;
 
-    public Mentor(long id, String first_name, String last_name, Student studentId, int subject_id) {
+    public Mentor(Long id, String firstName, String lastName, Student student, Integer subject) {
         this.id = id;
-        this.firstName = first_name;
-        this.lastName = last_name;
-        this.studentId = studentId;
-        this.subjectId = subject_id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.student = student;
+        this.subject = subject;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -46,20 +47,38 @@ public class Mentor {
         this.lastName = lastName;
     }
 
-    public Student getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(Student student) {
-        this.studentId = student;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public String getSubjectId() {
-        return subjectId;
+    public int getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(int subject) {
+        this.subject = subject;
+    }
+
+    @Override
+    public String toString() {
+
+        String result = "Mentor{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'';
+
+        if (student != null)
+            return result + ", student=" + student.getId() +
+                    ", subject=" + subject +
+                    '}';
+
+        else
+            return result + ", subject=" + subject +
+                    '}';
     }
 }
 

@@ -23,17 +23,14 @@ public class StudentsRepositoryJdbcImpl implements StudentsRepository {
     private static final String SQL_SELECT_BY_ID = "select * from student where id = ";
     private static final String SQL_SELECT_BY_AGE = "select * from student where age = ";
     private static final String SQL_SELECT_BY_STUD_ID_MENTOR = "select * from mentor where student_id = ";
-    private static final String SQL_SELECT_JOIN_STUD_AND_MENTOR = "select m.id as m_id, \" +\n" +
-            "\"m.first_name as m_first_name, \" +\n" +
-            "\"m.last_name as m_last_name, \" +\n" +
-            "\"m.subject_id as m_subject_id, \" +\n" +
-            "\"s.id as s_id, \" +\n" +
-            "\"s.first_name as s_first_name, \" +\n" +
-            "\"s.last_name as s_last_name, \" +\n" +
-            "\"s.age as s_age, \" +\n" +
-            "\"s.group_number as s_group_number \" +\n" +
-            "\"from student s left join mentor m on s.id = m.id";
+    private static final String SQL_SELECT_JOIN_STUD_AND_MENTOR = "select m.id as m_id, m.first_name as m_first_name," +
+            " m.last_name as m_last_name, m.subject_id as m_subject_id, s.id as s_id, " +
+            "s.first_name as s_first_name, s.last_name as s_last_name, s.age as s_age," +
+            " s.group_number as s_group_number from student s left join mentor m on s.id = student_id";
+    
     private Connection connection;
+    
+    
 
     public StudentsRepositoryJdbcImpl(Connection connection) {
         this.connection = connection;
